@@ -4,7 +4,7 @@ terraform {
     organization = "Surya-terraform"
 
     workspaces {
-      name = "terraform"
+      name = "terraform-test"
     }
   }
 }
