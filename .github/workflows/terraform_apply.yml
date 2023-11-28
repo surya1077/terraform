@@ -1,17 +1,13 @@
-name: Terraform Plan
+name: Terraform Apply
 
 on:
   push:
     branches:
-      - '*'
-      - '!main'
+      - main
 
 jobs:
-  terraform-plan:
+  terraform-apply:
     runs-on: ubuntu-latest
-      
-    env:
-      TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
 
     steps:
     - name: Checkout code
@@ -25,9 +21,9 @@ jobs:
     - name: Configure Terraform Cloud CLI
       run: echo -n "credentials \"app.terraform.io\" { token = \"$TF_API_TOKEN\" }" > $HOME/.terraformrc
 
-
     - name: Terraform Init
       run: terraform init
 
-    - name: Terraform Plan
-      run: terraform plan
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: terraform apply -auto-approve
