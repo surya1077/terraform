@@ -21,4 +21,7 @@ resource "aws_instance" "example_server" {
     Name = "JacksBlogExample"
   }
 }
-
+variable "aws_access_key"{
+}
+variable "aws_secret_key" {
+}
