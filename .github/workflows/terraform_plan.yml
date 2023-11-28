@@ -32,26 +32,3 @@ jobs:
     - name: Terraform Plan
       run: terraform plan
 
-   terraform-apply:
-     runs-on: ubuntu-latest
-     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-     env:
-       TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
-
-     steps:
-     - name: Checkout code
-       uses: actions/checkout@v2
-
-     - name: Set up Terraform
-       uses: hashicorp/setup-terraform@v1
-       with:
-         terraform_version: 1.6.4
-
-     - name: Configure Terraform Cloud CLI
-       run: echo -n "credentials \"app.terraform.io\" { token = \"$TF_API_TOKEN\" }" > $HOME/.terraformrc
-
-     - name: Terraform Init
-       run: terraform init
-
-     - name: Terraform Apply
-       run: terraform apply -auto-approve
